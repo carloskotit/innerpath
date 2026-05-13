@@ -19,6 +19,13 @@ const _jetbrainsMono = JetBrains_Mono({
   display: "swap",
 })
 
+const ogImage = {
+  url: "/innerpath-og-v2.png",
+  width: 1200,
+  height: 630,
+  alt: "InnerPath web development agency",
+}
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://innerpathagency.com"),
   title: {
@@ -40,11 +47,13 @@ export const metadata: Metadata = {
     url: "https://innerpathagency.com",
     title: "InnerPath | High-Performance Web Development",
     description: "We design and build high-performance websites for ambitious brands, from landing pages to full-scale web apps.",
+    images: [ogImage],
   },
   twitter: {
     card: "summary_large_image",
     title: "InnerPath | High-Performance Web Development",
     description: "We design and build high-performance websites for ambitious brands, from landing pages to full-scale web apps.",
+    images: [ogImage],
   },
   robots: {
     index: true,

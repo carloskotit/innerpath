@@ -1,0 +1,147 @@
+---
+title: "SEO for Founders Who Don't Have Time for SEO"
+description: "The 80/20 of technical SEO. What actually moves rankings, what you can ignore, and why your blog matters more than you think."
+date: "2026-01-08"
+author: "InnerPath"
+tags: ["SEO", "Strategy", "Founders"]
+---
+
+Most SEO advice is written by people trying to sell you SEO services. It's either too complicated (here's a 47-step technical audit checklist), too vague (just create great content!), or both at once.
+
+This post is different. It's written for founders running lean who want to understand where organic traffic actually comes from — and what to do about it in the time they have.
+
+We'll skip the theory. Here's what actually moves the needle.
+
+---
+
+## The 80/20 of Technical SEO
+
+Technical SEO has hundreds of possible issues. Most of them don't matter. Here are the five that do:
+
+### 1. Page speed (Core Web Vitals)
+
+Covered in depth in [our post on sub-1s loading](/blog/nextjs-sub-second-loading), but the short version: LCP under 2.5s, CLS under 0.1, INP under 200ms. If you're on a drag-and-drop builder, you're probably failing all three. [A custom build fixes this](/services/development).
+
+### 2. Indexability
+
+Googlebot has to be able to find and read your pages. Check two things:
+
+- Open [Google Search Console](https://search.google.com/search-console). Go to Coverage. Are there errors? Fix them.
+- Search `site:yourdomain.com` in Google. Do your pages show up? If not, you have a crawl problem.
+
+### 3. Proper `<title>` and `<meta description>` on every page
+
+Every page needs a unique title (under 60 characters) and description (under 160 characters) that reflects what's on that page. If multiple pages have the same title tag, Google has to guess which one to rank for what.
+
+### 4. One `<h1>` per page, logical heading hierarchy
+
+Your page's `<h1>` should tell Google what the page is about. One per page, descriptive, matches the search query you want to rank for. Then `<h2>` for major sections, `<h3>` for sub-sections. Don't skip levels.
+
+### 5. Canonical URLs
+
+If your page is accessible at multiple URLs (`/page` and `/page/` and `?ref=email`), Google splits ranking signals between them. Set a canonical URL on every page. In Next.js:
+
+```tsx
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://yourdomain.com/services/web-design",
+  },
+}
+```
+
+That's it. Everything else in technical SEO is marginal until you've nailed these five.
+
+---
+
+## Content Structure: How to Write for Humans and Google at Once
+
+Google's job is to match search intent. Your job is to be the best answer to a specific question.
+
+The mistake most founders make: they write content about themselves. "We offer premium web development services with a focus on quality." Google doesn't rank self-descriptions. It ranks answers to questions.
+
+Instead: **figure out what question your ideal customer is typing into Google, then answer it better than anyone else.**
+
+How to find the questions:
+
+1. Type your main service into Google. Look at "People also ask". Those are real questions real people are asking.
+2. Type your service + "how to" or "what is". Autocomplete shows you what people search.
+3. Look at your competitors' blog posts. What topics are they covering that rank well?
+
+Write a post for each question. The post title should be close to the question. The post body should answer it directly, with specifics, without padding.
+
+---
+
+## Internal Linking: The Underrated Signal
+
+Internal links pass authority from one page to another. They tell Google which pages on your site are important.
+
+The setup that works:
+
+- Your homepage links to your main service pages
+- Your service pages link to related blog posts
+- Your blog posts link to relevant service pages
+
+This creates a logical hierarchy. Homepage → Services → Blog. Authority flows down. Related content clusters together.
+
+Concretely: every blog post should have at least one internal link to a relevant service page. Every service page should link to related content. Don't just link for SEO — link because the content is genuinely useful. But be intentional about it.
+
+In this post, for example, we've linked to our [development service page](/services/development) when discussing performance, and our [SEO service page](/services/seo) at the end. Not randomly — because readers interested in those topics might want to know we can help.
+
+---
+
+## Why Your Blog Matters More Than You Think
+
+Most founders treat a blog as optional marketing collateral. It's not. It's the primary driver of organic traffic for most B2B and service businesses.
+
+Here's the math: your service pages can rank for maybe 5–10 keywords. Each blog post can rank for dozens. A blog with 20 posts can generate 10× the organic traffic of a site without one.
+
+More importantly: **blog posts rank for long-tail queries where intent is higher**. Someone searching "how to speed up my Shopify store" is closer to hiring a developer than someone searching "web development". They've already identified the problem. If you answer their question, you're the obvious next step.
+
+The bar is lower than you think. Most competitors have:
+- Thin posts written by content mills
+- Generic advice not backed by experience
+- No internal linking
+- Poor technical performance
+
+Write one 800-word post per month that actually answers a real question with real specifics. Do it for 12 months. You'll outrank most of your competitors.
+
+---
+
+## What to Ignore (Until Later)
+
+Things that SEO people will tell you matter but don't move the needle early:
+
+**Backlinks**: Yes, they matter for competitive terms. But for most local service businesses or early-stage startups, you can rank for your target keywords without a backlink campaign. Fix your technical SEO and write good content first.
+
+**Social signals**: Twitter, LinkedIn, Facebook have no direct ranking influence. They can drive traffic that indirectly builds authority, but that's a long game. Don't let social obsession crowd out writing.
+
+**Keyword density**: Google doesn't count how many times a keyword appears. Write naturally. Include synonyms and related terms. That's it.
+
+**Meta keywords**: Completely ignored by Google. Don't bother.
+
+---
+
+## The Practical Plan
+
+If you have two hours a month for SEO:
+
+**Month 1:**
+- Set up Google Search Console. Verify your site. Check Coverage for errors.
+- Add `<title>` and `<meta description>` to every page if you haven't.
+- Check your page speed in PageSpeed Insights. Note your mobile LCP.
+
+**Month 2–12:**
+- Write one blog post per month. Pick a real question your customers ask. Answer it in 600–1000 words. Include one internal link to a service page.
+- Review Search Console monthly. What queries are you showing up for? What's your click-through rate? High impressions + low clicks = fix your title tag.
+
+That's it. Consistent, boring execution beats elaborate strategy.
+
+---
+
+## The Honest Part
+
+SEO compounds slowly. You won't see results in month one. Sometimes not month three. But by month six, you'll have traffic from queries you never paid for. By year two, it's a significant source of leads.
+
+The businesses that win on organic search aren't the ones who did the most. They're the ones who were consistent longest, who answered real questions, and who didn't break their site in the process.
+
+If you want someone to take the technical foundation off your plate so you can focus on writing, [that's what we do](/services/seo). We fix what's broken, set up the infrastructure, and get out of your way.

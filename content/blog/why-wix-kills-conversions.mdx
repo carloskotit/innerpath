@@ -1,0 +1,112 @@
+---
+title: "Why Your Wix or Squarespace Site Is Killing Your Conversions"
+description: "Drag-and-drop builders are convenient. They're also quietly costing you money. Here's what the data says — and when a custom build actually makes sense."
+date: "2025-11-14"
+author: "InnerPath"
+tags: ["Performance", "Conversions", "Web Design"]
+---
+
+You paid someone $500 to set up your Wix site three years ago. It looks fine. It has your logo, your hours, a contact form. You've been meaning to update it. The thing is — it might be costing you more than it's earning you.
+
+Not dramatically. Not all at once. Just the slow, invisible tax of a site that loads too slowly, scores too low, and loses visitors before they ever see your offer.
+
+Let's talk about why, and what to do about it.
+
+---
+
+## The Speed Problem Is Worse Than You Think
+
+Google's Core Web Vitals are now a ranking factor. The metric that matters most for conversions is **LCP** — Largest Contentful Paint. It measures how long it takes for the main content of a page to appear on screen.
+
+The benchmark:
+- Under 2.5s — good
+- 2.5s–4s — needs improvement
+- Over 4s — poor
+
+Run a PageSpeed Insights test on a typical Wix or Squarespace site. You'll see LCP scores in the 4–8 second range on mobile, which is where most of your traffic comes from.
+
+Why? Because these platforms load *everything*: their own analytics, their app marketplace overhead, editor tooling, third-party scripts that were added two years ago and never removed. You don't have control over any of it.
+
+**The conversion impact is real.** Google's research shows that as mobile page load time goes from 1s to 3s, the probability of bounce increases 32%. At 5s, it's 90%.
+
+If your site takes 5 seconds to load on mobile and 100 people visit it, 90 of them are probably gone before they read a word.
+
+---
+
+## Core Web Vitals Aren't Just About Speed
+
+LCP is one of three metrics. The other two:
+
+**CLS (Cumulative Layout Shift)** — How much the page jumps around as it loads. You know that feeling when you go to tap a button and the page shifts and you tap the wrong thing? That's a high CLS. Wix and Squarespace sites often have significant CLS because fonts, images, and ads load asynchronously and push content around.
+
+**INP (Interaction to Next Paint)** — How quickly the page responds when you click something. Bloated JavaScript bundles mean slow responses.
+
+Builders fail all three, consistently, especially on mobile.
+
+---
+
+## What the Numbers Actually Say
+
+We rebuilt a DTC e-commerce site from Shopify's standard theme to a headless Next.js front end. Before/after:
+
+- Mobile LCP: **4.8s → 0.7s**
+- CLS: **0.32 → 0.01**
+- Lighthouse Performance: **41 → 98**
+- Conversion rate: **1.8% → 3.1%** (42% lift)
+
+That's not from redesigning the product. The copy didn't change. The pricing didn't change. The photos were the same. The speed changed.
+
+We also see it on lead-gen sites. A local service business moved from Wix to Next.js and saw their contact form submissions double in 30 days, with the same traffic, because the page now loaded before visitors gave up.
+
+---
+
+## When Builders Are Fine
+
+They're not always wrong. Here's when a builder makes sense:
+
+- **True side project or test**: You're validating an idea and don't need to win on performance yet. Ship fast, learn fast.
+- **Content-only brochure site with no SEO ambitions**: If you just need a URL to put on a business card and Google rankings don't matter, fine.
+- **Under $1k budget, no expectation of conversion**: You can't invest in a custom build, and you know it.
+
+If your business depends on organic search traffic or your website is supposed to generate leads or sales — you've outgrown the builder.
+
+---
+
+## The SEO Tax
+
+Slow sites don't just convert badly — they rank badly too.
+
+Page experience signals (Core Web Vitals) are a Google ranking factor. Not the *only* factor, but when two pages have similar content quality, the faster one wins. If you're in a competitive local market and your nearest competitor runs on a fast custom site, you're giving them a structural SEO advantage you can't overcome with better content alone.
+
+Builder platforms also make it hard to:
+- Add proper structured data (JSON-LD)
+- Control canonical URLs
+- Implement proper `<head>` metadata per page
+- Avoid JavaScript-rendered content that Googlebot can't index
+
+These aren't fatal. But they're friction, and friction compounds.
+
+---
+
+## What a Custom Build Actually Looks Like
+
+We use **Next.js** deployed on **Vercel**. The stack is fast by default:
+
+- `next/image` handles image optimization automatically — responsive sizes, WebP conversion, lazy loading with proper layout shift prevention
+- Code splitting is automatic — only the JavaScript for the current page loads
+- Edge caching on Vercel means your HTML is served from a node close to your user
+- Font loading uses `next/font` to avoid the flash of unstyled text that kills CLS
+
+A standard landing page from us hits sub-1s LCP. Not after optimization — by default.
+
+---
+
+## The Honest Bottom Line
+
+If your business depends on your website to generate leads, drive sales, or rank on Google — a drag-and-drop builder is costing you money. Not hundreds. Probably thousands, in lost conversions and missed rankings, compounding every month.
+
+A custom build pays for itself. The timeline is weeks, not months. And you own the code.
+
+If you're on Wix or Squarespace and want an honest assessment of what you're leaving on the table, [get in touch](/contact). We'll tell you what we'd change — no sales pressure.
+
+You can also [read about our web design process](/services/web-design) if you want to understand what a rebuild actually involves.

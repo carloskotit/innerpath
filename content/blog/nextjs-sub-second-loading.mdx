@@ -1,0 +1,211 @@
+---
+title: "How We Ship Next.js Sites That Load in Under 1 Second"
+description: "Sub-1s LCP isn't a stretch goal — it's our baseline. Here's the technical stack behind it: image optimization, code splitting, edge caching, and font loading done right."
+date: "2025-12-02"
+author: "InnerPath"
+tags: ["Performance", "Next.js", "Development"]
+---
+
+Most developers talk about performance after the site is already slow. They add it to the backlog, run Lighthouse when they remember, and patch issues one by one.
+
+We treat performance as a design constraint, not an afterthought. The result: every site we ship hits sub-1s LCP by default, without a separate optimization pass.
+
+Here's exactly how.
+
+---
+
+## The Baseline: What We're Targeting
+
+**LCP under 1s** on both desktop and mobile. That's the goal. Everything else (CLS under 0.1, INP under 200ms) falls out naturally if you're disciplined.
+
+Before we look at code, here's why 1s matters. Google's data shows:
+
+- 1s LCP: highest conversion rates
+- 2.5s: conversions start dropping measurably
+- 4s+: most mobile users have bounced
+
+The performance gap between a well-built Next.js site and a typical WordPress or builder site isn't marginal — it's often 5–8x on mobile. That gap is revenue.
+
+---
+
+## 1. Images: The Biggest Win
+
+Images are almost always the LCP element. A hero image that loads slowly is a slow LCP. Full stop.
+
+We use `next/image` on every image, always. Here's what it does for you:
+
+```tsx
+import Image from "next/image"
+
+export function HeroSection() {
+  return (
+    <Image
+      src="/images/hero.jpg"
+      alt="InnerPath hero"
+      width={1920}
+      height={1080}
+      priority // preloads the LCP image
+      sizes="100vw"
+      className="w-full h-auto"
+    />
+  )
+}
+```
+
+`priority` tells Next.js to add a `<link rel="preload">` for this image in the `<head>`. It gets fetched before the page even starts rendering the rest of the content. On LCP images, this alone can cut 300–500ms.
+
+`sizes` tells the browser which image to download based on viewport. Without it, the browser downloads the full-resolution image on a 375px mobile screen. With it, it downloads the right size. We see 60–80% reductions in image payload on mobile.
+
+Next.js also automatically serves WebP or AVIF where supported. Browsers that can use AVIF get images that are 40–50% smaller than equivalent JPEGs.
+
+---
+
+## 2. Code Splitting: Only Load What the Page Needs
+
+Next.js App Router does per-route code splitting automatically. But there are still things you can do to keep JavaScript small.
+
+### Dynamic imports for heavy components
+
+```tsx
+import dynamic from "next/dynamic"
+
+// Don't load this on initial render
+const HeavyChart = dynamic(() => import("@/components/heavy-chart"), {
+  loading: () => <div className="h-64 bg-white/5 rounded-xl animate-pulse" />,
+  ssr: false,
+})
+```
+
+We use this for anything that's below the fold, anything that's user-triggered (modals, drawers), and anything that relies on a large third-party library (charts, maps, rich text editors).
+
+### Keep `"use client"` out of layout
+
+Server Components render on the server — zero JavaScript sent to the browser. If you `"use client"` your layout, you've opted the entire tree into client-side rendering.
+
+Keep your layout server-only. Only mark components as `"use client"` when they need browser APIs or React state.
+
+```tsx
+// app/layout.tsx - server component by default
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        {children} {/* server-rendered */}
+      </body>
+    </html>
+  )
+}
+```
+
+### Bundle analysis
+
+We run `@next/bundle-analyzer` on every project before launch:
+
+```bash
+ANALYZE=true pnpm build
+```
+
+If any client chunk is over 100kb gzipped, we investigate. Usually it's a library that should be dynamically imported or server-side.
+
+---
+
+## 3. Edge Caching on Vercel
+
+Static pages served from Vercel's Edge Network are cached globally. A user in Tokyo gets the same fast response as a user in New York — served from a CDN node near them.
+
+For pages with dynamic data, we use **ISR** (Incremental Static Regeneration):
+
+```tsx
+export const revalidate = 3600 // regenerate every hour
+
+export default async function BlogPage() {
+  const posts = await fetchPosts() // fetched at build or revalidation time
+  return <PostList posts={posts} />
+}
+```
+
+The page is static in the CDN. When data changes, Vercel regenerates it in the background and the CDN cache updates without a cold start.
+
+For truly dynamic pages (e.g., authenticated dashboards), we use streaming with `<Suspense>` to ship the shell immediately and stream in data:
+
+```tsx
+import { Suspense } from "react"
+
+export default function Dashboard() {
+  return (
+    <div>
+      <Header /> {/* renders immediately */}
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardData /> {/* streams in */}
+      </Suspense>
+    </div>
+  )
+}
+```
+
+---
+
+## 4. Font Loading: Killing CLS
+
+Web fonts cause two problems if handled badly: **FOUT** (Flash of Unstyled Text) and **CLS** (layout shift when the font swaps in).
+
+We use `next/font` to eliminate both:
+
+```tsx
+import { JetBrains_Mono, Inter } from "next/font/google"
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+})
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+})
+```
+
+`next/font` downloads fonts at build time and self-hosts them. No third-party DNS lookup, no external request, no timing dependency. The font is available immediately.
+
+It also generates the CSS `size-adjust` property to match the fallback font metrics, so even if the web font isn't loaded yet, the fallback takes up the same space. CLS is eliminated.
+
+---
+
+## 5. Putting It All Together: A Checklist
+
+Before every launch, we run through this:
+
+- [ ] LCP image uses `priority` prop
+- [ ] All images use `next/image` with proper `sizes`
+- [ ] Bundle analyzer shows no unexpected large chunks
+- [ ] Heavy below-fold components are dynamically imported
+- [ ] Layout is a Server Component
+- [ ] Fonts loaded via `next/font`, not `<link>` tags
+- [ ] Pages that can be static use `revalidate` or are fully static
+- [ ] Lighthouse mobile score ≥ 90
+- [ ] CLS ≤ 0.1 (check with PageSpeed Insights field data, not just lab)
+
+---
+
+## Real Numbers
+
+Here's what this approach produces in practice:
+
+| Metric | Before | After |
+|--------|--------|-------|
+| LCP (mobile) | 4.8s | 0.7s |
+| CLS | 0.31 | 0.02 |
+| JavaScript (gzipped) | 680kb | 94kb |
+| Lighthouse Performance | 41 | 98 |
+
+These are real numbers from a client migration. The conversion rate went from 1.8% to 3.1% without changing a word of copy.
+
+---
+
+## The Bottom Line
+
+Sub-1s LCP doesn't require tricks. It requires discipline: use the framework's built-in tools correctly, don't send JavaScript the page doesn't need, cache at the edge, and don't let font loading cause layout shifts.
+
+If you want to see this approach applied to your project, [talk to us](/services/development). We'll build it right from day one.

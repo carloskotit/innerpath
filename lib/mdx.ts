@@ -10,6 +10,7 @@ export interface PostMeta {
   title: string
   description: string
   date: string
+  dateModified?: string
   author: string
   tags: string[]
   cover?: string
@@ -36,6 +37,7 @@ export function getAllPosts(): PostMeta[] {
         title: data.title ?? "",
         description: data.description ?? "",
         date: data.date ?? "",
+        dateModified: data.dateModified,
         author: data.author ?? "InnerPath",
         tags: data.tags ?? [],
         cover: data.cover,
@@ -58,6 +60,7 @@ export function getPostBySlug(slug: string): Post | null {
     title: data.title ?? "",
     description: data.description ?? "",
     date: data.date ?? "",
+    dateModified: data.dateModified,
     author: data.author ?? "InnerPath",
     tags: data.tags ?? [],
     cover: data.cover,

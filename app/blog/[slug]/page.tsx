@@ -19,21 +19,30 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   const { slug } = await params
   const post = getPostBySlug(slug)
   if (!post) return {}
+  const url = `https://innerpathagency.com/blog/${slug}`
+  const ogImage = "/innerpath-og-v2.png"
   return {
     title: post.title,
     description: post.description,
+    keywords: post.tags,
+    authors: [{ name: post.author }],
     openGraph: {
       title: post.title,
       description: post.description,
       type: "article",
+      url,
+      siteName: "InnerPath",
       publishedTime: post.date,
+      modifiedTime: post.dateModified ?? post.date,
       authors: [post.author],
       tags: post.tags,
+      images: [ogImage],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.description,
+      images: [ogImage],
     },
     alternates: { canonical: `/blog/${slug}` },
   }
@@ -48,14 +57,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const post = getPostBySlug(slug)
   if (!post) notFound()
 
+  const postUrl = `https://innerpathagency.com/blog/${slug}`
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: post.title,
     description: post.description,
+    image: "https://innerpathagency.com/innerpath-og-v2.png",
     datePublished: post.date,
+    dateModified: post.dateModified ?? post.date,
     author: { "@type": "Organization", name: "InnerPath" },
     publisher: { "@type": "Organization", name: "InnerPath", url: "https://innerpathagency.com" },
+    mainEntityOfPage: { "@type": "WebPage", "@id": postUrl },
   }
 
   const breadcrumbJsonLd = {
@@ -108,14 +121,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="prose prose-invert prose-lg max-w-none
           prose-headings:font-black prose-headings:tracking-tight prose-headings:text-white
           prose-h2:text-2xl prose-h3:text-xl
-          prose-p:font-mono prose-p:text-white/60 prose-p:leading-relaxed
+          prose-p:font-mono prose-p:text-white/80 prose-p:leading-relaxed
           prose-a:text-white prose-a:underline prose-a:underline-offset-4 prose-a:decoration-white/30 hover:prose-a:decoration-white
           prose-strong:text-white
           prose-code:font-mono prose-code:text-white/80 prose-code:bg-white/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
           prose-pre:bg-[#111111] prose-pre:border prose-pre:border-white/10 prose-pre:rounded-2xl
           prose-blockquote:border-l-white/20 prose-blockquote:text-white/50
           prose-hr:border-white/10
-          prose-li:text-white/60 prose-li:font-mono
+          prose-li:text-white/80 prose-li:font-mono
         ">
           <MDXRemote
             source={post.content}

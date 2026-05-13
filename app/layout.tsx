@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next"
 import type { ReactNode } from "react"
 import { Inter, JetBrains_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { LenisProvider } from "@/components/lenis-provider"
 import ClickSpark from "@/components/click-spark"
 import { FloatingCta } from "@/components/floating-cta"
@@ -88,6 +89,7 @@ export default function RootLayout({
           </LenisProvider>
         </ClickSpark>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )

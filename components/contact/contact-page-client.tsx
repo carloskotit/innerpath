@@ -1,6 +1,7 @@
 "use client"
 
 import { SocialSection } from "@/components/social-section"
+import { SocialLinks } from "@/components/social-links"
 
 export function ContactPageClient() {
   return (
@@ -21,6 +22,12 @@ export function ContactPageClient() {
             Book on Cal.com →
           </a>
           <p className="font-mono text-xs text-white/30 mt-3">We reply to all emails within 24 hours.</p>
+        </div>
+      </div>
+      <div className="py-8 px-6">
+        <div className="max-w-xl mx-auto">
+          <span className="font-mono text-white/60 text-[10px] tracking-[0.3em] uppercase block mb-6">FOLLOW US</span>
+          <SocialLinks variant="contact" />
         </div>
       </div>
     </div>

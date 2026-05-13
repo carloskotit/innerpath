@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { socials } from "@/data/socials"
 import { Navigation } from "@/components/navigation"
 import { HeroSection } from "@/components/hero-section"
 import { BentoGrid } from "@/components/bento-grid"
@@ -31,7 +32,7 @@ const jsonLd = {
         email: "contact@innerpathagency.com",
         contactType: "customer support",
       },
-      sameAs: [],
+      sameAs: socials.map((s) => s.url),
     },
     {
       "@type": "WebSite",

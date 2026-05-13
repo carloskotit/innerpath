@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { SocialLinks } from "@/components/social-links"
 
 const navLinks = [
   { label: "Services", href: "/services" },
@@ -30,17 +31,20 @@ export function Footer() {
             />
             <span className="text-lg font-black text-white">InnerPath</span>
           </div>
-          <nav className="flex flex-wrap gap-x-6 gap-y-2" aria-label="Footer navigation">
-            {navLinks.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="font-mono text-xs text-white/40 hover:text-white transition-colors tracking-widest uppercase"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
+          <div className="flex flex-col gap-4 items-start md:items-end">
+            <nav className="flex flex-wrap gap-x-6 gap-y-2" aria-label="Footer navigation">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className="font-mono text-xs text-white/40 hover:text-white transition-colors tracking-widest uppercase"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+            <SocialLinks variant="footer" />
+          </div>
         </div>
 
         <motion.div

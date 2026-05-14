@@ -39,6 +39,30 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
   const testimonial = testimonials.find((t) => t.id === service.featuredTestimonialId) ?? testimonials[0]
 
+  const relatedReading: Record<string, { anchor: string; href: string; blurb: string }> = {
+    "web-design": {
+      anchor: "custom design vs template builders",
+      href: "/blog/custom-website-vs-builder-2026",
+      blurb: "Why every Squarespace site looks the same — and what custom design actually costs over five years.",
+    },
+    "development": {
+      anchor: "Next.js vs WordPress, Wix, and Webflow performance",
+      href: "/blog/custom-website-vs-builder-2026",
+      blurb: "Real-world Core Web Vitals data across builders and custom stacks, plus the engineering reasons builders cap out.",
+    },
+    "seo": {
+      anchor: "the SEO ceiling baked into every website builder",
+      href: "/blog/custom-website-vs-builder-2026",
+      blurb: "Render-blocking platform JS, DOM bloat, canonical quirks, and the schema limits that quietly cap your rankings.",
+    },
+    "maintenance": {
+      anchor: "5-year total cost of ownership: builder vs custom",
+      href: "/blog/custom-website-vs-builder-2026",
+      blurb: "Itemized 5-year TCO across Wix, Squarespace, Webflow, Shopify, and custom Next.js — including maintenance retainer math.",
+    },
+  }
+  const related = relatedReading[slug]
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -148,6 +172,18 @@ export default async function ServicePage({ params }: ServicePageProps) {
           </Link>
         </div>
       </section>
+
+      {related && (
+        <section className="py-16 bg-[#0a0a0a] border-t border-white/10">
+          <div className="max-w-7xl mx-auto px-6">
+            <span className="font-mono text-white/60 text-[10px] tracking-[0.3em] uppercase block mb-4">FURTHER READING</span>
+            <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight mb-3">
+              Read about <Link href={related.href} className="underline underline-offset-4 decoration-white/30 hover:decoration-white">{related.anchor}</Link>.
+            </h2>
+            <p className="font-mono text-sm text-white/50 max-w-2xl">{related.blurb}</p>
+          </div>
+        </section>
+      )}
 
       <FeaturedTestimonial testimonial={testimonial} />
       <FaqAccordion items={service.faq} />

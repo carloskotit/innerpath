@@ -9,21 +9,21 @@ import { ChevronLeft, ChevronRight, Quote } from "lucide-react"
 const testimonials = [
   {
     id: 1,
-    name: "Irini S.",
-    role: "Local Bar Owner",
-    quote: "Once you go InnerPath, there is no other Path.",
+    name: "Dr. Lauren M.",
+    role: "Owner, Lumen Aesthetics Med Spa",
+    quote: "Our old site barely showed up for 'Botox near me' and consults were drying up. InnerPath rebuilt the booking flow, cleaned up our service pages, and three months in we're up to 70+ new patient consults a month. The before/after gallery alone changed how people walk in the door.",
   },
   {
     id: 2,
-    name: "Jonathan D.",
-    role: "E-commerce founder",
-    quote: "InnerPath completely rebuilt our website, and within weeks we saw a 42% increase in conversions. What stood out wasn't just the design - it was how fast and intentional everything felt. They don't waste time.",
+    name: "Mike R.",
+    role: "Co-Owner, Ridgeline Heating & Air",
+    quote: "We were dumping $4k a month into Google Ads and barely breaking even. InnerPath redid our site, set up the call tracking, and got us ranking for emergency AC repair in two of our service towns. Phones don't stop in July anymore - in a good way.",
   },
   {
     id: 3,
-    name: "Adam A.",
-    role: "Hotel Manager",
-    quote: "Before InnerPath, our site looked like a potato.",
+    name: "Dr. Priya K.",
+    role: "Practice Owner, Cedar Park Family Dental",
+    quote: "I was hesitant - we'd been burned by two marketing agencies before. What sold me was that they actually asked about our case mix and which procedures we wanted to grow. New patient calls for Invisalign and implants are up roughly 3x since launch.",
   },
 ]
 
@@ -98,7 +98,7 @@ export function FlavorCarousel() {
           className="text-center mb-10"
         >
           <motion.span
-            className="font-mono text-black/50 text-xs tracking-widest"
+            className="font-mono text-black/70 text-sm md:text-base tracking-widest"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}

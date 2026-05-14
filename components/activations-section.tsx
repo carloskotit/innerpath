@@ -50,7 +50,7 @@ export function ActivationsSection() {
           className="text-center mb-10"
         >
           <motion.span
-            className="font-mono text-black/50 text-xs tracking-widest inline-block"
+            className="font-mono text-black/70 text-sm md:text-base tracking-widest inline-block"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
